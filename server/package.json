@@ -1,0 +1,18 @@
+{
+  "name": "server-desafio-ibs",
+  "version": "1.0.50",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "test": "bun test --watch",
+    "coverage": "bun test --coverage"
+  },
+  "dependencies": {
+    "@biomejs/biome": "^1.6.3",
+    "@supabase/supabase-js": "^2.40.0",
+    "elysia": "latest"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "module": "src/index.js"
+}
