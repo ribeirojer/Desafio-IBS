@@ -1,0 +1,44 @@
+<h2>Welcome to the Dashboard!</h2>
+<p>This is your personalized dashboard where you can manage your account and access other features.</p>
+
+<h3>Add Address</h3>
+<form (ngSubmit)="addAddress()">
+  <div>
+    <label for="cep">CEP:</label>
+    <input type="text" id="cep" name="cep" [(ngModel)]="cep" required>
+  </div>
+  <div>
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address" [(ngModel)]="address" required>
+  </div>
+  <div>
+    <label for="number">Number:</label>
+    <input type="text" id="number" name="number" [(ngModel)]="number">
+  </div>
+  <button type="submit">Add Address</button>
+</form>
+
+<h3>Edit Address</h3>
+<form (ngSubmit)="editAddress(address)">
+  <div>
+    <label for="editCep">CEP:</label>
+    <input type="text" id="editCep" name="editCep" [(ngModel)]="editCep" required>
+  </div>
+  <div>
+    <label for="editAddress">Address:</label>
+    <input type="text" id="editAddress" name="editAddress" [(ngModel)]="editAddress" required>
+  </div>
+  <div>
+    <label for="editNumber">Number:</label>
+    <input type="text" id="editNumber" name="editNumber" [(ngModel)]="editNumber">
+  </div>
+  <button type="submit">Edit Address</button>
+</form>
+
+<h3>Delete Address</h3>
+<ul>
+  <li *ngFor="let address of addresses">
+    {{ address.cep }} - {{ address.address }} - {{ address.number }}
+    <button (click)="deleteAddress(address)">Delete</button>
+  </li>
+</ul>

@@ -1,35 +1,35 @@
 import { describe, it, expect } from "bun:test";
 import { app } from "../src";
-import { PersonController } from "../src/controllers/PersonController";
+import { AddressController } from "../src/controllers/AddressController";
 import { del, post, put, req } from "./utils";
 
-describe("GET /api/person", () => {
-	it("should return a list of people", async () => {
-		const response = await app.handle(req("/api/person"));
+describe("GET /api/address", () => {
+	it("should return a list of addresses", async () => {
+		const response = await app.handle(req("/api/address/3"));
 
 		expect(response.status).toBe(200);
-		const { people } = JSON.parse(await response.text());
-		expect(people).toBeTruthy();
+		const { addresses } = JSON.parse(await response.text());
+		expect(addresses).toBeTruthy();
 	});
-
-	it("should return a list of people with pagination", async () => {
-		const response = await app.handle(req("/api/person?page=1&limit=2"));
-
+	
+	it("should return a list of addresses with pagination", async () => {
+		const response = await app.handle(req("/api/address?page=1&limit=2"));
+		
 		expect(response.status).toBe(200);
-		const { people } = JSON.parse(await response.text());
-		expect(people).toBeTruthy();
-		expect(people.length).toBe(2);
+		const { addresses } = JSON.parse(await response.text());
+		expect(addresses).toBeTruthy();
+		expect(addresses.length).toBe(2);
 	});
 
-	it("should return a list of people with pagination and search", async () => {
+	it("should return a list of addresses with pagination and search", async () => {
 		const response = await app.handle(
-			req("/api/person?page=1&limit=2&search=João"),
+			req("/api/address?page=1&limit=2&search=Alfa"),
 		);
 
 		expect(response.status).toBe(200);
-		const { people } = JSON.parse(await response.text());
-		expect(people).toBeTruthy();
-		expect(people.length).toBe(1);
+		const { addresses } = JSON.parse(await response.text());
+		expect(addresses).toBeTruthy();
+		expect(addresses.length).toBe(1);
 	});
 
 	it("Should return a 500 error and error message", async () => {
@@ -45,27 +45,27 @@ describe("GET /api/person", () => {
 			},
 		};
 
-		await PersonController.getAllPeople({ query, set });
+		await AddressController.getAllAddresses({ query, set });
 	});
 });
 
-describe("GET /api/person/:id", () => {
-	it.skip("Should return a 200 status code and the person object", async () => {
-		const response = await app.handle(req("/api/person/1"));
+describe("GET /api/address/:id", () => {
+	it("Should return a 200 status code and the address object", async () => {
+		const response = await app.handle(req("/api/address/1"));
 
 		expect(response.status).toBe(200);
-		const { person } = JSON.parse(await response.text());
-		expect(person).toBeTruthy();
-		expect(person.id).toBe(1);
-		expect(person.name).toBe("João");
+		const { address } = JSON.parse(await response.text());
+		expect(address).toBeTruthy();
+		expect(address.id).toBe(1);
+		expect(address.street).toBe("Rua Alfa");
 	});
 
 	it("Should return a 404 status code and an error message", async () => {
-		const response = await app.handle(req("/api/person/999"));
+		const response = await app.handle(req("/api/address/999"));
 
 		expect(response.status).toBe(404);
-		const { error } = JSON.parse(await response.text());
-		expect(error).toBe("Person not found");
+		const { message } = JSON.parse(await response.text());
+		expect(message).toBe("Address not found");
 	});
 
 	it("Should return a 500 error and error message", async () => {
@@ -81,103 +81,158 @@ describe("GET /api/person/:id", () => {
 			},
 		};
 
-		await PersonController.getPersonById({ params, set });
+		await AddressController.getAddressById({ params, set });
 	});
 });
 
-describe("POST /api/person", () => {
-	it("Should return a 201 status code and the created person object", async () => {
+describe("POST /api/address", () => {
+	it.skip("Should return a 201 status code and the created address object", async () => {
 		const response = await app.handle(
-			post("/api/person", {
-				name: "Jane Doe",
-				gender: "female",
-				birthDay: "1990-01-01",
-				maritalStatus: "single",
+			post("/api/address", {
+				personid: 1,
+				cep: "89010025",
+				street: "Rua Doutor Luiz de Freitas Melro - lado par",
+				number: "123",
+				complement: "Casa",
+				neighborhood: "Centro",
+				city: "Blumenau",
+				state: "SC",
 			}),
 		);
 
 		expect(response.status).toBe(201);
-		const { person } = JSON.parse(await response.text());
-		expect(person).toBeTruthy();
-		expect(person.name).toBe("Jane Doe");
-		expect(person.gender).toBe("female");
-		expect(person.birthday).toBe("1990-01-01");
+		const { newAddress } = JSON.parse(await response.text());
+		expect(newAddress).toBeTruthy();
+		expect(newAddress.street).toBe("Rua Doutor Luiz de Freitas Melro - lado par");
 	});
 
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
-			post("/api/person", {
-				name: "",
-				gender: "female",
-				birthDay: "1990-01-01",
-				maritalStatus: "single",
+			post("/api/address", {
+				personid: undefined,
+				cep: "89010025",
+				street: "Rua Doutor Luiz de Freitas Melro - lado par",
+				number: "123",
+				complement: "Casa",
+				neighborhood: "Centro",
+				city: "Blumenau",
+				state: "SC",
 			}),
 		);
 
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
-		expect(error).toBe("Name is required");
+		expect(error).toBe("Person ID is required");
 	});
 
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
-			post("/api/person", {
-				name: "Jane Doe",
-				gender: "",
-				birthDay: "1990-01-01",
-				maritalStatus: "single",
+			post("/api/address", {
+				personid: 1,
+				cep: "",
+				street: "Rua Doutor Luiz de Freitas Melro - lado par",
+				number: "123",
+				complement: "Casa",
+				neighborhood: "Centro",
+				city: "Blumenau",
+				state: "SC",
 			}),
 		);
 
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
-		expect(error).toBe("Gender is required");
-	});
-
+		expect(error).toBe("CEP is required");
+	})
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
-			post("/api/person", {
-				name: "Jane Doe",
-				gender: "female",
-				birthDay: "",
-				maritalStatus: "single",
+			post("/api/address", {
+				personid: 1,
+				cep: "89010025",
+				street: "",
+				number: "123",
+				complement: "Casa",
+				neighborhood: "Centro",
+				city: "Blumenau",
+				state: "SC",
 			}),
 		);
 
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
-		expect(error).toBe("Birthday is required");
-	});
-
+		expect(error).toBe("Street is required");
+	})
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
-			post("/api/person", {
-				name: "Jane Doe",
-				gender: "female",
-				birthDay: "1990-01-01",
-				maritalStatus: "",
+			post("/api/address", {
+				personid: 1,
+				cep: "89010025",
+				street: "Rua Doutor Luiz de Freitas Melro - lado par",
+				number: "",
+				complement: "Casa",
+				neighborhood: "Centro",
+				city: "Blumenau",
+				state: "SC",
 			}),
 		);
 
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
-		expect(error).toBe("Marital status is required");
-	});
-
-	it.skip("Should return a 400 status code and an error message", async () => {
+		expect(error).toBe("Number is required");
+	})
+	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
-			post("/api/person", {
-				name: "Jane Doe",
-				gender: "female",
-				birthDay: "1990-01-01",
-				maritalStatus: "single",
+			post("/api/address", {
+				personid: 1,
+				cep: "89010025",
+				street: "Rua Doutor Luiz de Freitas Melro - lado par",
+				number: "123",
+				complement: "Casa",
+				neighborhood: "",
+				city: "Blumenau",
+				state: "SC",
 			}),
 		);
 
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
-		expect(error).toBe("Person already exists");
-	});
+		expect(error).toBe("Neighborhood is required");
+	})
+	it("Should return a 400 status code and an error message", async () => {
+		const response = await app.handle(
+			post("/api/address", {
+				personid: 1,
+				cep: "89010025",
+				street: "Rua Doutor Luiz de Freitas Melro - lado par",
+				number: "123",
+				complement: "Casa",
+				neighborhood: "Centro",
+				city: "",
+				state: "SC",
+			}),
+		);
+
+		expect(response.status).toBe(400);
+		const { error } = JSON.parse(await response.text());
+		expect(error).toBe("City is required");
+	})
+	it("Should return a 400 status code and an error message", async () => {
+		const response = await app.handle(
+			post("/api/address", {
+				personid: 1,
+				cep: "89010025",
+				street: "Rua Doutor Luiz de Freitas Melro - lado par",
+				number: "123",
+				complement: "Casa",
+				neighborhood: "Centro",
+				city: "Blumenau",
+				state: "",
+			}),
+		);
+
+		expect(response.status).toBe(400);
+		const { error } = JSON.parse(await response.text());
+		expect(error).toBe("State is required");
+	})
 
 	it("Should return a 500 error and error message", async () => {
 		const body = {};
@@ -192,100 +247,175 @@ describe("POST /api/person", () => {
 			},
 		};
 
-		await PersonController.createPerson({ body, set });
+		await AddressController.createAddress({ body, set });
 	});
 });
 
-describe("PUT /api/person/:id", () => {
-	it.skip("Should return a 200 status code and the updated person object", async () => {
+describe("PUT /api/address/:id", () => {
+	it("Should return a 200 status code and the updated address object", async () => {
 		const response = await app.handle(
-			put("/api/person/25", {
-				name: "Jane Doe",
-				gender: "female",
-				birthDay: "1990-01-01",
-				maritalStatus: "mariage",
+			put("/api/address/3", {
+				personid: 1,
+				cep: "00000000",
+				street: "Rua Doutor Luiz de Freitas Melro - lado par",
+				number: "123",
+				complement: "Casa",
+				neighborhood: "Centro",
+				city: "Blumenau",
+				state: "SC",
 			}),
 		);
 
 		expect(response.status).toBe(200);
-		const { updatedPerson } = JSON.parse(await response.text());
-		expect(updatedPerson).toBeTruthy();
-		expect(updatedPerson.maritalstatus).toBe("mariage");
+		const { updatedAddress } = JSON.parse(await response.text());
+		expect(updatedAddress).toBeTruthy();
+		expect(updatedAddress.cep).toBe("00000000");
 	});
 
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
-			put("/api/person/25", {
-				name: "",
-				gender: "female",
-				birthDay: "1990-01-01",
-				maritalStatus: "single",
+			put("/api/address/3", {
+				personid: undefined,
+				cep: "00000000",
+				street: "Rua Doutor Luiz de Freitas Melro - lado par",
+				number: "123",
+				complement: "Casa",
+				neighborhood: "Centro",
+				city: "Blumenau",
+				state: "SC",
 			}),
 		);
 
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
-		expect(error).toBe("Name is required");
-	});
-
+		expect(error).toBe("Person ID is required");
+	})
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
-			put("/api/person/25", {
-				name: "Jane Doe",
-				gender: "",
-				birthDay: "1990-01-01",
-				maritalStatus: "single",
+			put("/api/address/3", {
+				personid: 1,
+				cep: "",
+				street: "Rua Doutor Luiz de Freitas Melro - lado par",
+				number: "123",
+				complement: "Casa",
+				neighborhood: "Centro",
+				city: "Blumenau",
+				state: "SC",
 			}),
 		);
 
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
-		expect(error).toBe("Gender is required");
-	});
-
+		expect(error).toBe("CEP is required");
+	})
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
-			put("/api/person/25", {
-				name: "Jane Doe",
-				gender: "female",
-				birthDay: "",
-				maritalStatus: "single",
+			put("/api/address/3", {
+				personid: 1,
+				cep: "89010025",
+				street: "",
+				number: "123",
+				complement: "Casa",
+				neighborhood: "Centro",
+				city: "Blumenau",
+				state: "SC",
 			}),
 		);
 
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
-		expect(error).toBe("Birthday is required");
-	});
-
+		expect(error).toBe("Street is required");
+	})
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
-			put("/api/person/25", {
-				name: "Jane Doe",
-				gender: "female",
-				birthDay: "1990-01-01",
-				maritalStatus: "",
+			put("/api/address/3", {
+				personid: 1,
+				cep: "89010025",
+				street: "Rua Doutor Luiz de Freitas Melro - lado par",
+				number: "",
+				complement: "Casa",
+				neighborhood: "Centro",
+				city: "Blumenau",
+				state: "SC",
 			}),
 		);
 
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
-		expect(error).toBe("Marital status is required");
-	});
+		expect(error).toBe("Number is required");
+	})
+	it("Should return a 400 status code and an error message", async () => {
+		const response = await app.handle(
+			put("/api/address/3", {
+				personid: 1,
+				cep: "89010025",
+				street: "Rua Doutor Luiz de Freitas Melro - lado par",
+				number: "123",
+				complement: "Casa",
+				neighborhood: "",
+				city: "Blumenau",
+				state: "SC",
+			}),
+		);
+
+		expect(response.status).toBe(400);
+		const { error } = JSON.parse(await response.text());
+		expect(error).toBe("Neighborhood is required");
+	})
+	it("Should return a 400 status code and an error message", async () => {
+		const response = await app.handle(
+			put("/api/address/3", {
+				personid: 1,
+				cep: "89010025",
+				street: "Rua Doutor Luiz de Freitas Melro - lado par",
+				number: "123",
+				complement: "Casa",
+				neighborhood: "Centro",
+				city: "",
+				state: "SC",
+			}),
+		);
+
+		expect(response.status).toBe(400);
+		const { error } = JSON.parse(await response.text());
+		expect(error).toBe("City is required");
+	})
+	it("Should return a 400 status code and an error message", async () => {
+		const response = await app.handle(
+			put("/api/address/3", {
+				personid: 1,
+				cep: "89010025",
+				street: "Rua Doutor Luiz de Freitas Melro - lado par",
+				number: "123",
+				complement: "Casa",
+				neighborhood: "Centro",
+				city: "Blumenau",
+				state: "",
+			}),
+		);
+
+		expect(response.status).toBe(400);
+		const { error } = JSON.parse(await response.text());
+		expect(error).toBe("State is required");
+	})
 
 	it("Should return a 404 status code and an error message", async () => {
 		const response = await app.handle(
-			put("/api/person/999", {
-				name: "Jane Doe",
-				gender: "female",
-				birthDay: "1990-01-01",
-				maritalStatus: "single",
+			put("/api/address/999", {
+				personid: 1,
+				cep: "89010025",
+				street: "Rua Doutor Luiz de Freitas Melro - lado par",
+				number: "123",
+				complement: "Casa",
+				neighborhood: "Centro",
+				city: "Blumenau",
+				state: "SC",
 			}),
 		);
 
 		expect(response.status).toBe(404);
 		const { error } = JSON.parse(await response.text());
-		expect(error).toBe("Person not found");
+		expect(error).toBe("Address not found");
 	});
 
 	it("Should return a 500 error and error message", async () => {
@@ -302,26 +432,26 @@ describe("PUT /api/person/:id", () => {
 			},
 		};
 
-		await PersonController.updatePerson({ body, params, set });
+		await AddressController.updateAddress({ body, params, set });
 	});
 });
 
-describe("DELETE /api/person/:id", () => {
+describe("DELETE /api/address/:id", () => {
 	it.skip("Should return a 200 status code and message", async () => {
-		const response = await app.handle(del("/api/person/25"));
+		const response = await app.handle(del("/api/address/3"));
 
 		expect(response.status).toBe(200);
 		const { message } = JSON.parse(await response.text());
 
-		expect(message).toBe("Person deleted successfully");
+		expect(message).toBe("Address deleted successfully");
 	});
 
 	it("Should return a 404 status code and an error message", async () => {
-		const response = await app.handle(del("/api/person/999"));
+		const response = await app.handle(del("/api/address/999"));
 
 		expect(response.status).toBe(404);
 		const { error } = JSON.parse(await response.text());
-		expect(error).toBe("Person not found");
+		expect(error).toBe("Address not found");
 	});
 
 	it("Should return a 500 error and error message", async () => {
@@ -337,6 +467,6 @@ describe("DELETE /api/person/:id", () => {
 			},
 		};
 
-		await PersonController.deletePerson({ params, set });
+		await AddressController.deleteAddress({ params, set });
 	});
 });

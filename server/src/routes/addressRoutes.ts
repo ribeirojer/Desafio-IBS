@@ -1,15 +1,15 @@
-import Elysia, { t } from "elysia";
+import Elysia from "elysia";
 import { AddressController } from "../controllers/AddressController";
 
 const router = new Elysia();
 
 router.group("/api", (router) =>
 	router
-		.get("/addresses", AddressController.getAllAddresses)
-		.get("/addresses/:id", AddressController.getAddressById)
-		.post("/addresses", AddressController.createAddress)
-		.put("/addresses/:id", AddressController.updateAddress)
-		.delete("/addresses/:id", AddressController.deleteAddress),
+		.get("/address", AddressController.getAllAddresses)
+		.get("/address/:id", AddressController.getAddressById)
+		.post("/address", AddressController.createAddress)
+		.put("/address/:id", AddressController.updateAddress)
+		.delete("/address/:id", AddressController.deleteAddress),
 );
 
 export default router;

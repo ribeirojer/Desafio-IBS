@@ -1,7 +1,10 @@
 export interface IAddress {
-	id: number;
+	personid: number;
 	street: string;
 	city: string;
 	state: string;
-	zip: string;
+	cep: string
+	number: string
+	complement: string
+	neighborhood: string
 }
