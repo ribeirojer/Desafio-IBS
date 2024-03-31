@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../environment';
 
 @Component({
   selector: 'app-login',
@@ -12,22 +13,20 @@ import { FormsModule } from '@angular/forms';
 })
 
 export class LoginComponent {
-  username: string = '';
+  email: string = '';
   password: string = '';
 
   constructor(private http: HttpClient) {}
 
   login(): void {
-    // Aqui você pode adicionar a lógica de autenticação
-    console.log('Username:', this.username);
-    console.log('Password:', this.password);
 
     const loginData = {
-      username: this.username,
+      email: this.email,
       password: this.password
     };
+    console.log(loginData);
 
-    this.http.post<any>('https://api.example.com/login', loginData)
+    this.http.post<any>(environment.apiUrl + '/login', loginData)
       .subscribe(
         response => {
           console.log('Login successful:', response);

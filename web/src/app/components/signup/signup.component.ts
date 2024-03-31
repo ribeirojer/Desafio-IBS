@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../environment';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
@@ -26,8 +27,9 @@ export class SignupComponent {
       password: this.password,
       confirm_password: this.confirm_password,
     };
+    console.log(userData);
 
-    this.http.post<any>('https://api.example.com/signup', userData)
+    this.http.post<any>(environment.apiUrl + '/signup', userData)
       .subscribe(
         response => {
           console.log('Sign up successful:', response);
