@@ -8,11 +8,16 @@
   },
   "dependencies": {
     "@biomejs/biome": "^1.6.3",
+    "@elysiajs/cors": "^1.0.2",
     "@supabase/supabase-js": "^2.40.0",
     "axios": "^1.6.8",
-    "elysia": "latest"
+    "bcrypt": "^5.1.1",
+    "elysia": "latest",
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.6",
     "bun-types": "latest"
   },
   "module": "src/index.js"

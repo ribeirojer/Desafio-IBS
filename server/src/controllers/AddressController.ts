@@ -59,13 +59,21 @@ export class AddressController {
 
 	public static async createAddress({ body, set }: any) {
 		try {
-			const { personid, cep, street, number, complement, neighborhood, state, city } =
-				body;
+			const {
+				personid,
+				cep,
+				street,
+				number,
+				complement,
+				neighborhood,
+				state,
+				city,
+			} = body;
 
-				if (!personid) {
-					set.status = 400;
-					return { error: "Person ID is required" };
-				}
+			if (!personid) {
+				set.status = 400;
+				return { error: "Person ID is required" };
+			}
 
 			if (!cep) {
 				set.status = 400;
@@ -102,7 +110,7 @@ export class AddressController {
 				neighborhood,
 				city,
 				state,
-			}	);
+			});
 
 			set.status = 201;
 			return { newAddress };
@@ -116,9 +124,17 @@ export class AddressController {
 	public static async updateAddress({ params, body, set }: any) {
 		try {
 			const { id } = params;
-			const { personid, cep, street, number, complement, neighborhood, state, city } =
-				body;
-				
+			const {
+				personid,
+				cep,
+				street,
+				number,
+				complement,
+				neighborhood,
+				state,
+				city,
+			} = body;
+
 			if (!id) {
 				set.status = 400;
 				return { error: "ID is required" };
@@ -128,31 +144,31 @@ export class AddressController {
 				return { error: "Person ID is required" };
 			}
 
-		if (!cep) {
-			set.status = 400;
-			return { error: "CEP is required" };
-		}
-		if (!street) {
-			set.status = 400;
-			return { error: "Street is required" };
-		}
-		if (!number) {
-			set.status = 400;
-			return { error: "Number is required" };
-		}
+			if (!cep) {
+				set.status = 400;
+				return { error: "CEP is required" };
+			}
+			if (!street) {
+				set.status = 400;
+				return { error: "Street is required" };
+			}
+			if (!number) {
+				set.status = 400;
+				return { error: "Number is required" };
+			}
 
-		if (!neighborhood) {
-			set.status = 400;
-			return { error: "Neighborhood is required" };
-		}
-		if (!state) {
-			set.status = 400;
-			return { error: "State is required" };
-		}
-		if (!city) {
-			set.status = 400;
-			return { error: "City is required" };
-		}
+			if (!neighborhood) {
+				set.status = 400;
+				return { error: "Neighborhood is required" };
+			}
+			if (!state) {
+				set.status = 400;
+				return { error: "State is required" };
+			}
+			if (!city) {
+				set.status = 400;
+				return { error: "City is required" };
+			}
 			const address = await getAddressById(id);
 
 			if (!address) {
@@ -194,17 +210,17 @@ export class AddressController {
 			}
 
 			const address = await getAddressById(id);
-			
+
 			if (!address) {
 				set.status = 404;
 				return { error: "Address not found" };
 			}
-			
+
 			await deleteAddress(id);
-			
+
 			set.status = 200;
 			return { message: "Address deleted successfully" };
-        } catch (error) {
+		} catch (error) {
 			console.error(error);
 			set.status = 500;
 			return { error: "Internal server error" };

@@ -1,7 +1,11 @@
 import { IAddress } from "../interfaces/Address";
 import { supabase } from "../utils/supabase";
 
-export async function getAllAddresses(searchQuery: string, limitQuery: number, offset: number): Promise<IAddress[]> {
+export async function getAllAddresses(
+	searchQuery: string,
+	limitQuery: number,
+	offset: number,
+): Promise<IAddress[]> {
 	let query = supabase
 		.from("personaddress")
 		.select("*")
@@ -24,8 +28,8 @@ export async function getAddressById(id: string): Promise<IAddress> {
 	const { data, error } = await supabase
 		.from("personaddress")
 		.select("*")
-		.eq("id", id)
-		
+		.eq("id", id);
+
 	if (error) {
 		throw new Error(error.message);
 	}
