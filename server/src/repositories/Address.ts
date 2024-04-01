@@ -24,6 +24,19 @@ export async function getAllAddresses(
 	return data;
 }
 
+export async function getAddressesByPersonId(id: string): Promise<IAddress[]> {
+	const { data, error } = await supabase
+		.from("personaddress")
+		.select("*")
+		.eq("personid", id);
+
+	if (error) {
+		throw new Error(error.message);
+	}
+
+	return data;
+}
+
 export async function getAddressById(id: string): Promise<IAddress> {
 	const { data, error } = await supabase
 		.from("personaddress")

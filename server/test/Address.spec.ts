@@ -2,7 +2,7 @@ import { describe, it, expect } from "bun:test";
 import { app } from "../src";
 import { AddressController } from "../src/controllers/AddressController";
 import { del, post, put, req } from "./utils";
-/**
+
 describe("GET /api/address", () => {
 	it("should return a list of addresses", async () => {
 		const response = await app.handle(req("/api/address/3"));
@@ -470,4 +470,4 @@ describe("DELETE /api/address/:id", () => {
 		await AddressController.deleteAddress({ params, set });
 	});
 });
- */
+ 

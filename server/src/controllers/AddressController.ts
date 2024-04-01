@@ -2,6 +2,7 @@ import {
 	createAddress,
 	deleteAddress,
 	getAddressById,
+	getAddressesByPersonId,
 	getAllAddresses,
 	updateAddress,
 } from "../repositories/Address";
@@ -50,6 +51,36 @@ export class AddressController {
 
 			set.status = 200;
 			return { address };
+		} catch (error) {
+			console.error(error);
+			set.status = 500;
+			return { error: "Internal server error" };
+		}
+	}
+
+	public static async getAddressPerson({ params, set }: any) {
+		try {
+			const { id } = params;
+
+			if (!id) {
+				set.status = 400;
+				return { error: "ID is required" };
+			}
+
+			if (isNaN(parseInt(id))) {
+				set.status = 400;
+				return { error: "ID must be a number" };
+			}
+
+			const addresses = await getAddressesByPersonId(id);
+
+			if (!addresses) {
+				set.status = 404;
+				return { message: "Addresses not found" };
+			}
+
+			set.status = 200;
+			return { addresses };
 		} catch (error) {
 			console.error(error);
 			set.status = 500;

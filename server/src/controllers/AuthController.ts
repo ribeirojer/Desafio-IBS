@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken"; // Biblioteca para geração de tokens JWT
 import { supabase } from "../utils/supabase";
+import { createPerson, getPersonByEmail } from "../repositories/Person";
 
 export class AuthController {
 	static async register({ body, set }: any) {
@@ -30,10 +31,18 @@ export class AuthController {
 				throw new Error(error.message);
 			}
 
-			const { user } = data;
+			const { user, session } = data;
+
+			const person = await createPerson({
+				name,
+				email,
+				gender: "",
+				birthDay: "",
+				maritalStatus: '',
+			})
 
 			set.status = 201;
-			return { user };
+			return { user, session, person };
 		} catch (error) {
 			console.error(error);
 			set.status = 500;
@@ -64,12 +73,14 @@ export class AuthController {
 				return { error: "Credenciais inválidas" };
 			}
 
+			const person = await getPersonByEmail(email)
+
 			const token = jwt.sign({ userId: data.user.id }, "your_secret_key", {
 				expiresIn: "1h",
 			});
 
 			set.status = 200;
-			return { token };
+			return { person, token };
 		} catch (error) {
 			console.error(error);
 			set.status = 500;

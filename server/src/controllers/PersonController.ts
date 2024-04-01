@@ -48,11 +48,15 @@ export class PersonController {
 
 	public static async createPerson({ body, set }: any) {
 		try {
-			const { name, gender, birthDay, maritalStatus } = body;
+			const { name, email, gender, birthDay, maritalStatus } = body;
 
 			if (!name) {
 				set.status = 400;
 				return { error: "Name is required" };
+			}
+			if (!email) {
+				set.status = 400;
+				return { error: "Email is required" };
 			}
 			if (!gender) {
 				set.status = 400;
@@ -69,9 +73,10 @@ export class PersonController {
 
 			const person = await createPerson({
 				name,
+				email,
 				gender,
-				birthday: birthDay,
-				maritalstatus: maritalStatus,
+				birthDay,
+				maritalStatus
 			});
 
 			set.status = 201;
@@ -85,12 +90,16 @@ export class PersonController {
 
 	public static async updatePerson({ params, body, set }: any) {
 		try {
-			const { name, gender, birthDay, maritalStatus } = body;
+			const { name, email, gender, birthDay, maritalStatus } = body;
 			const { id } = params;
 
 			if (!name) {
 				set.status = 400;
 				return { error: "Name is required" };
+			}
+			if (!email) {
+				set.status = 400;
+				return { error: "Email is required" };
 			}
 			if (!gender) {
 				set.status = 400;
@@ -118,6 +127,7 @@ export class PersonController {
 
 			const updatedPerson = await updatePerson(id, {
 				name,
+				email,
 				gender,
 				birthday: birthDay,
 				maritalstatus: maritalStatus,

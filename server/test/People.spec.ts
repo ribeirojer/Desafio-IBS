@@ -2,7 +2,7 @@ import { describe, it, expect } from "bun:test";
 import { app } from "../src";
 import { PersonController } from "../src/controllers/PersonController";
 import { del, post, put, req } from "./utils";
-/**
+
 describe("GET /api/person", () => {
 	it("should return a list of people", async () => {
 		const response = await app.handle(req("/api/person"));
@@ -90,6 +90,7 @@ describe("POST /api/person", () => {
 		const response = await app.handle(
 			post("/api/person", {
 				name: "Jane Doe",
+				email: "jane@example.com",
 				gender: "female",
 				birthDay: "1990-01-01",
 				maritalStatus: "single",
@@ -107,7 +108,8 @@ describe("POST /api/person", () => {
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
 			post("/api/person", {
-				name: "",
+				name: "",				email: "jane@example.com",
+
 				gender: "female",
 				birthDay: "1990-01-01",
 				maritalStatus: "single",
@@ -123,7 +125,8 @@ describe("POST /api/person", () => {
 		const response = await app.handle(
 			post("/api/person", {
 				name: "Jane Doe",
-				gender: "",
+				gender: "",				email: "jane@example.com",
+
 				birthDay: "1990-01-01",
 				maritalStatus: "single",
 			}),
@@ -139,7 +142,8 @@ describe("POST /api/person", () => {
 			post("/api/person", {
 				name: "Jane Doe",
 				gender: "female",
-				birthDay: "",
+				birthDay: "",				email: "jane@example.com",
+
 				maritalStatus: "single",
 			}),
 		);
@@ -153,7 +157,8 @@ describe("POST /api/person", () => {
 		const response = await app.handle(
 			post("/api/person", {
 				name: "Jane Doe",
-				gender: "female",
+				gender: "female",				email: "jane@example.com",
+
 				birthDay: "1990-01-01",
 				maritalStatus: "",
 			}),
@@ -168,7 +173,8 @@ describe("POST /api/person", () => {
 		const response = await app.handle(
 			post("/api/person", {
 				name: "Jane Doe",
-				gender: "female",
+				gender: "female",				email: "jane@example.com",
+
 				birthDay: "1990-01-01",
 				maritalStatus: "single",
 			}),
@@ -201,7 +207,8 @@ describe("PUT /api/person/:id", () => {
 		const response = await app.handle(
 			put("/api/person/25", {
 				name: "Jane Doe",
-				gender: "female",
+				gender: "female",				email: "jane@example.com",
+
 				birthDay: "1990-01-01",
 				maritalStatus: "mariage",
 			}),
@@ -216,7 +223,8 @@ describe("PUT /api/person/:id", () => {
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
 			put("/api/person/25", {
-				name: "",
+				name: "",				email: "jane@example.com",
+
 				gender: "female",
 				birthDay: "1990-01-01",
 				maritalStatus: "single",
@@ -232,7 +240,8 @@ describe("PUT /api/person/:id", () => {
 		const response = await app.handle(
 			put("/api/person/25", {
 				name: "Jane Doe",
-				gender: "",
+				gender: "",				email: "jane@example.com",
+
 				birthDay: "1990-01-01",
 				maritalStatus: "single",
 			}),
@@ -248,7 +257,8 @@ describe("PUT /api/person/:id", () => {
 			put("/api/person/25", {
 				name: "Jane Doe",
 				gender: "female",
-				birthDay: "",
+				birthDay: "",				email: "jane@example.com",
+
 				maritalStatus: "single",
 			}),
 		);
@@ -262,7 +272,8 @@ describe("PUT /api/person/:id", () => {
 		const response = await app.handle(
 			put("/api/person/25", {
 				name: "Jane Doe",
-				gender: "female",
+				gender: "female",				email: "jane@example.com",
+
 				birthDay: "1990-01-01",
 				maritalStatus: "",
 			}),
@@ -277,7 +288,8 @@ describe("PUT /api/person/:id", () => {
 		const response = await app.handle(
 			put("/api/person/999", {
 				name: "Jane Doe",
-				gender: "female",
+				gender: "female",				email: "jane@example.com",
+
 				birthDay: "1990-01-01",
 				maritalStatus: "single",
 			}),
@@ -340,4 +352,4 @@ describe("DELETE /api/person/:id", () => {
 		await PersonController.deletePerson({ params, set });
 	});
 });
- */
+ 

@@ -1,3 +1,4 @@
+import { IPerson } from "../interfaces/Person";
 import { supabase } from "../utils/supabase";
 
 export async function getAllPerson(
@@ -37,10 +38,29 @@ export async function getPersonById(id: string) {
 	return data[0];
 }
 
-export async function createPerson(person: any) {
+export async function getPersonByEmail(email: string) {
 	const { data, error } = await supabase
 		.from("person")
-		.insert(person)
+		.select("*")
+		.eq("email", email);
+
+	if (error) {
+		throw new Error(error.message);
+	}
+
+	return data[0];
+}
+
+export async function createPerson(person: IPerson) {
+
+	const { data, error } = await supabase
+		.from("person")
+		.insert({
+			name: person.name,
+			email: person.email,
+			gender: person.gender, 
+			birthday: new Date(person.birthDay),
+			maritalstatus: person.maritalStatus,})
 		.select("*");
 
 	if (error) {
