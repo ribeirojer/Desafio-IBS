@@ -52,15 +52,15 @@ export async function getPersonByEmail(email: string) {
 }
 
 export async function createPerson(person: IPerson) {
-
 	const { data, error } = await supabase
 		.from("person")
 		.insert({
 			name: person.name,
 			email: person.email,
-			gender: person.gender, 
+			gender: person.gender,
 			birthday: new Date(person.birthDay),
-			maritalstatus: person.maritalStatus,})
+			maritalstatus: person.maritalStatus,
+		})
 		.select("*");
 
 	if (error) {

@@ -1,0 +1,36 @@
+<section  class="fixed z-20 top-0 left-0 flex items-center justify-center w-full h-full min-h-screen px-4 py-5 bg-dark/90">
+    <div class="w-full max-w-[570px] rounded-[20px] bg-white dark:bg-dark-2 py-12 px-8 text-center md:py-[60px] md:px-[70px]">
+      <h3 class="pb-2 text-xl font-semibold text-dark dark:text-white sm:text-2xl">Editar Pessoa</h3>
+      <span class="mx-auto mb-6 inline-block h-1 w-[90px] rounded bg-blue-500"></span>
+      
+      <form (ngSubmit)="editPerson()">
+        <div class="mb-4 grid grid-cols-2 gap-4">
+          <div>
+            <label for="name" class="block mb-1 text-start text-base font-medium text-dark dark:text-white">Nome:</label>
+            <input type="text" id="name" name="name" [(ngModel)]="name" class="w-full bg-transparent rounded-md border border-stroke dark:border-dark-3 py-[10px] px-5 text-dark-6 outline-none transition focus:border-blue-500 active:border-blue-500 disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2" required aria-label="name">
+          </div>
+          <div>
+            <label for="email" class="block mb-1 text-start text-base font-medium text-dark dark:text-white">E-mail:</label>
+            <input type="text" id="email" name="email" [(ngModel)]="email" class="w-full bg-transparent rounded-md border border-stroke dark:border-dark-3 py-[10px] px-5 text-dark-6 outline-none transition focus:border-blue-500 active:border-blue-500 disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2" required aria-label="email">
+          </div>
+          <div>
+            <label for="gender" class="block mb-1 text-start text-base font-medium text-dark dark:text-white">Sexo:</label>
+            <input type="text" id="gender" name="gender" [(ngModel)]="gender" class="w-full bg-transparent rounded-md border border-stroke dark:border-dark-3 py-[10px] px-5 text-dark-6 outline-none transition focus:border-blue-500 active:border-blue-500 disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2" required aria-label="Número">
+          </div>
+          <div>
+            <label for="birthday" class="block mb-1 text-start text-base font-medium text-dark dark:text-white">Data de Nascimento:</label>
+            <input type="text" id="birthday" name="birthday" [(ngModel)]="birthday" appDateMask class="w-full bg-transparent rounded-md border border-stroke dark:border-dark-3 py-[10px] px-5 text-dark-6 outline-none transition focus:border-blue-500 active:border-blue-500 disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2" required aria-label="birthday">
+          </div>
+          <div>
+            <label for="maritalstatus" class="block mb-1 text-start text-base font-medium text-dark dark:text-white">Estado Civil:</label>
+            <input type="text" id="maritalstatus" name="maritalstatus" [(ngModel)]="maritalstatus" class="w-full bg-transparent rounded-md border border-stroke dark:border-dark-3 py-[10px] px-5 text-dark-6 outline-none transition focus:border-blue-500 active:border-blue-500 disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2" required aria-label="birthdayo">
+          </div>
+        </div>        
+        <div class="flex justify-between">
+          <button (click)="handleClick()"  type="button" class="w-[48%] p-3 text-base font-medium text-center transition border rounded-md border-stroke text-dark dark:text-white hover:border-red-600 hover:bg-red-600 hover:text-white">Cancelar</button>
+          <button type="submit" class="w-[48%] p-3 text-base font-medium text-center text-white transition border rounded-md border-blue-500 bg-blue-500 hover:bg-blue-dark">Editar</button>
+        </div>
+      </form>
+    </div>
+  </section>
+ <div class="fixed inset-0 z-10 flex w-full items-center justify-center bg-black bg-opacity-50"></div>

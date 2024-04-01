@@ -38,8 +38,8 @@ export class AuthController {
 				email,
 				gender: "",
 				birthDay: "",
-				maritalStatus: '',
-			})
+				maritalStatus: "",
+			});
 
 			set.status = 201;
 			return { user, session, person };
@@ -73,7 +73,7 @@ export class AuthController {
 				return { error: "Credenciais inválidas" };
 			}
 
-			const person = await getPersonByEmail(email)
+			const person = await getPersonByEmail(email);
 
 			const token = jwt.sign({ userId: data.user.id }, "your_secret_key", {
 				expiresIn: "1h",
@@ -91,12 +91,12 @@ export class AuthController {
 	static async logout({ set }: any) {
 		try {
 			const { error } = await supabase.auth.signOut();
-			
-            if (error) {
+
+			if (error) {
 				throw new Error(error.message);
 			}
-			
-            set.status = 200;
+
+			set.status = 200;
 			return { message: "Logout bem-sucedido" };
 		} catch (error) {
 			console.error(error);

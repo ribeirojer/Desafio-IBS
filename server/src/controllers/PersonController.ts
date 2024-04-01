@@ -76,7 +76,7 @@ export class PersonController {
 				email,
 				gender,
 				birthDay,
-				maritalStatus
+				maritalStatus,
 			});
 
 			set.status = 201;

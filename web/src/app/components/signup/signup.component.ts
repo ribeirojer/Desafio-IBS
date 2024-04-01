@@ -3,6 +3,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { environment } from '../../environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -17,27 +18,88 @@ export class SignupComponent {
   email: string = '';
   password: string = '';
   confirm_password: string = '';
+  errorMessage: string = "";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   signup(): void {
+    this.errorMessage = '';
+    this.name = this.name.trim();
+    this.email = this.email.trim();
+    this.password = this.password.trim();
+    this.confirm_password = this.confirm_password.trim();
+
+    if (!this.name) {
+       this.errorMessage = 'Por favor, preencha o seu nome.';
+       return;
+     }
+     if (!this.name.trim()) {
+       this.errorMessage = 'Por favor, preencha o seu nome.';
+       return;
+     }
+     if (this.name.length < 3) {
+       this.errorMessage = 'O nome deve ter pelo menos 3 caracteres.';
+       return;
+     }
+     if (!this.name.match(/^[a-zA-Z]+$/)) {
+       this.errorMessage = 'O nome deve conter apenas letras.';
+       return;
+     }
+    if (!this.email) {
+       this.errorMessage = 'Por favor, preencha o seu email.';
+       return;
+     }
+     if (!this.email.trim()) {
+      this.errorMessage = 'Por favor, preencha o seu email.';
+      return;
+     }
+     if (!this.email.includes('@')) {
+       this.errorMessage = 'Por favor, preencha um email válido.';
+       return;
+     }
+     if (!this.email.includes('.com')) {
+       this.errorMessage = 'Por favor, preencha um email válido.';
+       return;
+     }
+     if (!this.password) {
+       this.errorMessage = 'Por favor, preencha a sua senha.';
+       return;
+     }
+     if (this.password.length < 8) {
+       this.errorMessage = 'A senha deve ter pelo menos 8 caracteres.';
+       return;
+     }
+     if (!this.confirm_password) {
+       this.errorMessage = 'Por favor, confirme a sua senha.';
+       return;
+     }
+     if (this.password !== this.confirm_password) {
+       this.errorMessage = 'As senhas não conferem.';
+       return;
+     }
+
     const userData = {
       name: this.name,
       email: this.email,
       password: this.password,
       confirm_password: this.confirm_password,
     };
-    console.log(userData);
 
     this.http.post<any>(environment.apiUrl + '/signup', userData)
       .subscribe(
         response => {
-          console.log('Sign up successful:', response);
-          // Aqui você pode adicionar lógica para redirecionar o usuário para a próxima página após o cadastro
+          this.name = '';
+          this.email = '';
+          this.password = '';
+          this.confirm_password = '';
+          this.errorMessage = '';
+          localStorage.setItem('session', response.session);
+          localStorage.setItem('user', response.user);
+          this.router.navigate(['/dashboard']);
         },
         error => {
           console.error('Sign up failed:', error);
-          // Aqui você pode adicionar lógica para lidar com erros de cadastro, como exibir uma mensagem de erro para o usuário
+          this.errorMessage = 'Erro ao cadastrar usuário. Tente novamente mais tarde.';
         }
       );
   }

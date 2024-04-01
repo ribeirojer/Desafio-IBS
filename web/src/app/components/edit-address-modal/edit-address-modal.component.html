@@ -1,0 +1,45 @@
+<section  class="fixed z-20 top-0 left-0 flex items-center justify-center w-full h-full min-h-screen px-4 py-5 bg-dark/90">
+  <div class="w-full max-w-[570px] rounded-[20px] bg-white dark:bg-dark-2 py-12 px-8 text-center md:py-[60px] md:px-[70px]">
+    <h3 class="pb-2 text-xl font-semibold text-dark dark:text-white sm:text-2xl">Editar Endereço</h3>
+    <span class="mx-auto mb-6 inline-block h-1 w-[90px] rounded bg-blue-500"></span>
+    
+    <form (ngSubmit)="editAddress()">
+      <div class="mb-4 grid grid-cols-2 gap-4">
+        <div>
+          <label for="cep" class="block mb-1 text-start text-base font-medium text-dark dark:text-white">CEP:</label>
+          <input type="text" id="cep" name="cep" [(ngModel)]="cep" (input)="onCepInputChange()" maxlength="8" class="w-full bg-transparent rounded-md border border-stroke dark:border-dark-3 py-[10px] px-5 text-dark-6 outline-none transition focus:border-blue-500 active:border-blue-500 disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2" required aria-label="CEP">
+        </div>
+        <div>
+          <label for="street" class="block mb-1 text-start text-base font-medium text-dark dark:text-white">Endereço:</label>
+          <input type="text" id="street" name="street" [(ngModel)]="street" class="w-full bg-transparent rounded-md border border-stroke dark:border-dark-3 py-[10px] px-5 text-dark-6 outline-none transition focus:border-blue-500 active:border-blue-500 disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2" required aria-label="Endereço">
+        </div>
+        <div>
+          <label for="number" class="block mb-1 text-start text-base font-medium text-dark dark:text-white">Número:</label>
+          <input type="text" id="number" name="number" [(ngModel)]="number" class="w-full bg-transparent rounded-md border border-stroke dark:border-dark-3 py-[10px] px-5 text-dark-6 outline-none transition focus:border-blue-500 active:border-blue-500 disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2" required aria-label="Número">
+        </div>
+        <div>
+          <label for="complement" class="block mb-1 text-start text-base font-medium text-dark dark:text-white">Complemento:</label>
+          <input type="text" id="complement" name="complement" [(ngModel)]="complement" class="w-full bg-transparent rounded-md border border-stroke dark:border-dark-3 py-[10px] px-5 text-dark-6 outline-none transition focus:border-blue-500 active:border-blue-500 disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2" required aria-label="Complemento">
+        </div>
+        <div>
+          <label for="neighborhood" class="block mb-1 text-start text-base font-medium text-dark dark:text-white">Bairro:</label>
+          <input type="text" id="neighborhood" name="neighborhood" [(ngModel)]="neighborhood" class="w-full bg-transparent rounded-md border border-stroke dark:border-dark-3 py-[10px] px-5 text-dark-6 outline-none transition focus:border-blue-500 active:border-blue-500 disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2" required aria-label="Complemento">
+        </div>
+        <div>
+          <label for="city" class="block mb-1 text-start text-base font-medium text-dark dark:text-white">Cidade:</label>
+          <input type="text" id="city" name="city" [(ngModel)]="city" class="w-full bg-transparent rounded-md border border-stroke dark:border-dark-3 py-[10px] px-5 text-dark-6 outline-none transition focus:border-blue-500 active:border-blue-500 disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2" required aria-label="Complemento">
+        </div>
+        <div>
+          <label for="state" class="block mb-1 text-start text-base font-medium text-dark dark:text-white">Estado:</label>
+          <input type="text" id="state" name="state" [(ngModel)]="state" class="w-full bg-transparent rounded-md border border-stroke dark:border-dark-3 py-[10px] px-5 text-dark-6 outline-none transition focus:border-blue-500 active:border-blue-500 disabled:cursor-default disabled:bg-gray-2 disabled:border-gray-2" required aria-label="Complemento">
+        </div>
+      </div>
+      
+      <div class="flex justify-between">
+        <button (click)="handleClick()"  type="button" class="w-[48%] p-3 text-base font-medium text-center transition border rounded-md border-stroke text-dark dark:text-white hover:border-red-600 hover:bg-red-600 hover:text-white">Cancelar</button>
+        <button type="submit" class="w-[48%] p-3 text-base font-medium text-center text-white transition border rounded-md border-blue-500 bg-blue-500 hover:bg-blue-dark">Editar</button>
+      </div>
+    </form>
+  </div>
+</section>
+<div class="fixed inset-0 z-10 flex w-full items-center justify-center bg-black bg-opacity-50"></div>

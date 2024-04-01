@@ -11,10 +11,10 @@ describe("GET /api/address", () => {
 		const { addresses } = JSON.parse(await response.text());
 		expect(addresses).toBeTruthy();
 	});
-	
+
 	it("should return a list of addresses with pagination", async () => {
 		const response = await app.handle(req("/api/address?page=1&limit=2"));
-		
+
 		expect(response.status).toBe(200);
 		const { addresses } = JSON.parse(await response.text());
 		expect(addresses).toBeTruthy();
@@ -103,7 +103,9 @@ describe("POST /api/address", () => {
 		expect(response.status).toBe(201);
 		const { newAddress } = JSON.parse(await response.text());
 		expect(newAddress).toBeTruthy();
-		expect(newAddress.street).toBe("Rua Doutor Luiz de Freitas Melro - lado par");
+		expect(newAddress.street).toBe(
+			"Rua Doutor Luiz de Freitas Melro - lado par",
+		);
 	});
 
 	it("Should return a 400 status code and an error message", async () => {
@@ -142,7 +144,7 @@ describe("POST /api/address", () => {
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
 		expect(error).toBe("CEP is required");
-	})
+	});
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
 			post("/api/address", {
@@ -160,7 +162,7 @@ describe("POST /api/address", () => {
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
 		expect(error).toBe("Street is required");
-	})
+	});
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
 			post("/api/address", {
@@ -178,7 +180,7 @@ describe("POST /api/address", () => {
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
 		expect(error).toBe("Number is required");
-	})
+	});
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
 			post("/api/address", {
@@ -196,7 +198,7 @@ describe("POST /api/address", () => {
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
 		expect(error).toBe("Neighborhood is required");
-	})
+	});
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
 			post("/api/address", {
@@ -214,7 +216,7 @@ describe("POST /api/address", () => {
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
 		expect(error).toBe("City is required");
-	})
+	});
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
 			post("/api/address", {
@@ -232,7 +234,7 @@ describe("POST /api/address", () => {
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
 		expect(error).toBe("State is required");
-	})
+	});
 
 	it("Should return a 500 error and error message", async () => {
 		const body = {};
@@ -289,7 +291,7 @@ describe("PUT /api/address/:id", () => {
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
 		expect(error).toBe("Person ID is required");
-	})
+	});
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
 			put("/api/address/3", {
@@ -307,7 +309,7 @@ describe("PUT /api/address/:id", () => {
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
 		expect(error).toBe("CEP is required");
-	})
+	});
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
 			put("/api/address/3", {
@@ -325,7 +327,7 @@ describe("PUT /api/address/:id", () => {
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
 		expect(error).toBe("Street is required");
-	})
+	});
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
 			put("/api/address/3", {
@@ -343,7 +345,7 @@ describe("PUT /api/address/:id", () => {
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
 		expect(error).toBe("Number is required");
-	})
+	});
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
 			put("/api/address/3", {
@@ -361,7 +363,7 @@ describe("PUT /api/address/:id", () => {
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
 		expect(error).toBe("Neighborhood is required");
-	})
+	});
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
 			put("/api/address/3", {
@@ -379,7 +381,7 @@ describe("PUT /api/address/:id", () => {
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
 		expect(error).toBe("City is required");
-	})
+	});
 	it("Should return a 400 status code and an error message", async () => {
 		const response = await app.handle(
 			put("/api/address/3", {
@@ -397,7 +399,7 @@ describe("PUT /api/address/:id", () => {
 		expect(response.status).toBe(400);
 		const { error } = JSON.parse(await response.text());
 		expect(error).toBe("State is required");
-	})
+	});
 
 	it("Should return a 404 status code and an error message", async () => {
 		const response = await app.handle(
@@ -470,4 +472,3 @@ describe("DELETE /api/address/:id", () => {
 		await AddressController.deleteAddress({ params, set });
 	});
 });
- 

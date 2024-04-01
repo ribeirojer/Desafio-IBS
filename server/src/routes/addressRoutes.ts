@@ -10,7 +10,7 @@ router.group("/api", (router) =>
 		.post("/address", AddressController.createAddress)
 		.put("/address/:id", AddressController.updateAddress)
 		.delete("/address/:id", AddressController.deleteAddress)
-		.get("/address/:id/person", AddressController.getAddressPerson)
+		.get("/address/:id/person", AddressController.getAddressPerson),
 );
 
 export default router;
